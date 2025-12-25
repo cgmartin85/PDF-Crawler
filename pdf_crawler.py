@@ -20,6 +20,7 @@ import re
 import threading
 import signal
 import sys
+import json
 from urllib.parse import urljoin, urlparse, unquote
 from collections import deque
 from bs4 import BeautifulSoup
@@ -77,6 +78,44 @@ class CrawlerState:
         self.keywords: List[str] = []
         
         self.is_running = True
+
+    def save_state(self, filename: str):
+        data = {
+            "scanned": self.scanned,
+            "analyzed_count": self.analyzed_count,
+            "relevant_count": self.relevant_count,
+            "total_content_bytes": self.total_content_bytes,
+            "findings": self.findings,
+            "visited": list(self.visited),
+            "queue": list(self.queue),
+            "start_url": self.start_url,
+            "keywords": self.keywords
+        }
+        with open(filename, 'w') as f:
+            json.dump(data, f)
+        print(f"\n[+] State saved to {filename}")
+
+    def load_state(self, filename: str) -> bool:
+        try:
+            with open(filename, 'r') as f:
+                data = json.load(f)
+            self.scanned = data.get("scanned", 0)
+            self.analyzed_count = data.get("analyzed_count", 0)
+            self.relevant_count = data.get("relevant_count", 0)
+            self.total_content_bytes = data.get("total_content_bytes", 0)
+            self.findings = data.get("findings", [])
+            self.visited = set(data.get("visited", []))
+            self.queue = deque(data.get("queue", []))
+            self.start_url = data.get("start_url", "")
+            self.keywords = data.get("keywords", [])
+            print(f"[+] Resumed state from {filename}. Queue size: {len(self.queue)}")
+            return True
+        except FileNotFoundError:
+            print(f"[-] State file {filename} not found. Starting fresh.")
+            return False
+        except Exception as e:
+            print(f"[-] Failed to load state: {e}")
+            return False
 
 state = CrawlerState()
 
@@ -268,7 +307,7 @@ def compile_final_report(output_file: str = "Knowledge_Compilation.md"):
 def signal_handler(signum, frame):
     state.is_running = False
 
-def crawl(start_url: str, keywords: List[str], max_threads: int):
+def crawl(start_url: str, keywords: List[str], max_threads: int, resume: bool = False):
     signal.signal(signal.SIGINT, signal_handler)
     
     # Init Analyzer
@@ -279,12 +318,29 @@ def crawl(start_url: str, keywords: List[str], max_threads: int):
         return
 
     # Init State
-    state.queue.append(start_url)
-    state.visited.add(start_url)
-    state.start_url = start_url
-    state.keywords = keywords
-    state.max_concurrency_cap = max_threads
+    loaded = False
+    if resume:
+        loaded = state.load_state("crawler_state.json")
     
+    if not loaded:
+        state.queue.append(start_url)
+        state.visited.add(start_url)
+        state.start_url = start_url
+        state.keywords = keywords
+        state.max_concurrency_cap = max_threads
+    
+    # Ensure some critical state is synced if we loaded (keywords could be overwritten if user provided different ones, 
+    # but for resume strictness we usually keep the old ones or update? Let's keep old ones if loaded, or override?
+    # The plan said "continue exactly where it left off, forcing the same URL and keywords". 
+    # load_state sets self.keywords. So we should NOT override it unless we strictly want to allow changing keywords mid-flight.
+    # But for now, let's respect the loaded state if it exists.
+    if loaded:
+        # Update concurrency cap from current args even if resumed
+        state.max_concurrency_cap = max_threads
+        # Recalculate keywords string for display
+        keywords = state.keywords
+        start_url = state.start_url
+        
     scope_url = start_url if start_url.endswith('/') else start_url + '/'
     
     session = requests.Session()
@@ -340,9 +396,12 @@ def crawl(start_url: str, keywords: List[str], max_threads: int):
                 time.sleep(0.1)
                 
     except KeyboardInterrupt:
-        print("\n[!] Stopping crawler (Ctrl+C detected)...")
+        print("\n[!] Force stopping crawler (Ctrl+C detected)...")
         state.is_running = False
-        executor.shutdown(wait=False, cancel_futures=True)
+        state.save_state("crawler_state.json")
+        compile_final_report()
+        import os
+        os._exit(0)
     finally:
         state.is_running = False
         executor.shutdown(wait=False)
@@ -353,8 +412,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('url')
     # CHANGED: 'keywords' with nargs='+'
-    parser.add_argument('--keywords', '-k', nargs='+', required=True, help="Topics to extract")
-    parser.add_argument('--threads', '-t', type=int, default=10)
+    parser.add_argument('--keywords', '-k', nargs='+', help="Topics to extract (required unless resuming)")
+    parser.add_argument('--threads', '-t', type=int, default=5)
+    parser.add_argument('--resume', action='store_true', help="Resume from crawler_state.json")
     args = parser.parse_args()
     
-    crawl(args.url, args.keywords, args.threads)
+    if not args.resume and not args.keywords:
+        parser.error("--keywords is required unless --resume is specified")
+    
+    # If resuming, keywords might be None, but crawl handles it
+    kw_arg = args.keywords if args.keywords else []
+    
+    crawl(args.url, kw_arg, args.threads, args.resume)

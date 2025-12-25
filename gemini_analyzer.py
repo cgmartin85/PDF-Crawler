@@ -19,7 +19,7 @@ class GeminiAnalyzer:
             raise ValueError("GEMINI_API_KEY not found in environment variables.")
         
         self.client = genai.Client(api_key=api_key)
-        self.model_name = 'gemini-2.0-flash-exp'
+        self.model_name = 'gemini-3-flash-preview'
 
     def extract_text(self, pdf_bytes: bytes) -> str:
         """Extracts text from PDF bytes using pypdf."""
@@ -73,34 +73,54 @@ class GeminiAnalyzer:
         {text[:25000]} 
         """ 
 
-        try:
-            response = self.client.models.generate_content(
-                model=self.model_name,
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    response_mime_type="application/json"
-                )
-            )
-            
-            # For google-genai, the text property is often directly available or we parse it
-            # If response supports automatic JSON parsing into objects if configured schema...
-            # But simple JSON string back is safest for now.
+        import time
+        import random
+
+        max_retries = 3
+        base_delay = 2
+
+        for attempt in range(max_retries + 1):
             try:
-                import json
-                result = json.loads(response.text)
-            except Exception:
-                # Fallback if response.text isn't raw JSON string or if SDK behaves differently
-                print(f"Debug: Response text: {response.text}")
-                return []
-            
-            # Ensure it's a list
-            if isinstance(result, list):
-                return result
-            # Handle edge case where model returns single object
-            if isinstance(result, dict) and 'topic' in result:
-                return [result]
+                response = self.client.models.generate_content(
+                    model=self.model_name,
+                    contents=prompt,
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json"
+                    )
+                )
                 
-            return []
-        except Exception as e:
-            print(f"AI Analysis failed: {e}")
-            return []
+                try:
+                    import json
+                    result = json.loads(response.text)
+                except Exception:
+                    # Fallback if response.text isn't raw JSON string or if SDK behaves differently
+                    print(f"Debug: Response text: {response.text}")
+                    return []
+                
+                # Ensure it's a list
+                if isinstance(result, list):
+                    return result
+                # Handle edge case where model returns single object
+                if isinstance(result, dict) and 'topic' in result:
+                    return [result]
+                    
+                return []
+
+            except Exception as e:
+                error_str = str(e)
+                if "429" in error_str or "Too Many Requests" in error_str:
+                    if attempt < max_retries:
+                        delay = (base_delay * (2 ** attempt)) + (random.random() * 1.0)
+                        print(f"[!] API Rate Limit (429). Retrying in {delay:.2f}s...")
+                        time.sleep(delay)
+                        continue
+                    else:
+                        print("[!] Max retries reached for API Limit.")
+                        return []
+                elif "404" in error_str or "Not Found" in error_str:
+                    print(f"[-] Model {self.model_name} not found (404). Skipping.")
+                    return []
+                else:
+                    print(f"AI Analysis failed: {e}")
+                    return []
+        return []
