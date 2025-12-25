@@ -1,2 +1,7 @@
 requests
 beautifulsoup4
+google-generativeai
+pypdf
+python-dotenv
+reportlab
+rich
