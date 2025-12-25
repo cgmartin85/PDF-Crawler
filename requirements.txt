@@ -1,6 +1,6 @@
 requests
 beautifulsoup4
-google-generativeai
+google-genai
 pypdf
 python-dotenv
 reportlab

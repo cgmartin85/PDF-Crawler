@@ -1,24 +1,30 @@
-import os
-import io
-import google.generativeai as genai
-from pypdf import PdfReader
-from typing import Optional, Dict
-from dotenv import load_dotenv
 
-load_dotenv()
+import os
+import json
+from pypdf import PdfReader
+from io import BytesIO
+from google import genai
+from google.genai import types
 
 class GeminiAnalyzer:
     def __init__(self):
+        try:
+            from dotenv import load_dotenv
+            load_dotenv()
+        except ImportError:
+            pass
+            
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             raise ValueError("GEMINI_API_KEY not found in environment variables.")
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-1.5-flash')
+        
+        self.client = genai.Client(api_key=api_key)
+        self.model_name = 'gemini-2.0-flash-exp'
 
     def extract_text(self, pdf_bytes: bytes) -> str:
         """Extracts text from PDF bytes using pypdf."""
         try:
-            reader = PdfReader(io.BytesIO(pdf_bytes))
+            reader = PdfReader(BytesIO(pdf_bytes))
             text = ""
             for page in reader.pages:
                 text += page.extract_text() + "\n"
@@ -68,9 +74,24 @@ class GeminiAnalyzer:
         """ 
 
         try:
-            response = self.model.generate_content(prompt, generation_config={"response_mime_type": "application/json"})
-            import json
-            result = json.loads(response.text)
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json"
+                )
+            )
+            
+            # For google-genai, the text property is often directly available or we parse it
+            # If response supports automatic JSON parsing into objects if configured schema...
+            # But simple JSON string back is safest for now.
+            try:
+                import json
+                result = json.loads(response.text)
+            except Exception:
+                # Fallback if response.text isn't raw JSON string or if SDK behaves differently
+                print(f"Debug: Response text: {response.text}")
+                return []
             
             # Ensure it's a list
             if isinstance(result, list):

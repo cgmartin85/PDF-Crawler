@@ -99,7 +99,7 @@ def process_url(session: requests.Session, analyzer: GeminiAnalyzer, url: str, s
         with state.lock:
             state.active_tasks += 1
             
-        response = session.get(url, stream=True, timeout=20)
+        response = session.get(url, stream=True, timeout=(10, 60))
         response.raise_for_status()
         
         content_type = response.headers.get('Content-Type', '').lower()
@@ -141,9 +141,16 @@ def process_url(session: requests.Session, analyzer: GeminiAnalyzer, url: str, s
                     raise ValueError("HTML too large")
                     
                 soup = BeautifulSoup(html_content, 'html.parser')
+                base_domain = urlparse(scope_url).netloc
+                
                 for link in soup.find_all('a', href=True):
                     abs_url = urljoin(url, link['href']).split('#')[0]
-                    if abs_url.startswith(scope_url):
+                    
+                    # Logic: Allow if strictly in scope OR if it is a PDF on the same domain
+                    is_in_scope = abs_url.startswith(scope_url)
+                    is_same_domain_pdf = abs_url.lower().endswith('.pdf') and urlparse(abs_url).netloc == base_domain
+                    
+                    if is_in_scope or is_same_domain_pdf:
                         new_links.append(abs_url)
                         
                 with state.lock:
@@ -292,15 +299,17 @@ def crawl(start_url: str, keywords: List[str], max_threads: int):
     print(f"[*] Starting Multi-Keyword Crawl for: {kws_display}")
     time.sleep(1)
     
-    with Live(generate_dashboard(), refresh_per_second=4, screen=False) as live:
-        
-        with ThreadPoolExecutor(max_workers=max_threads) as executor:
+    executor = ThreadPoolExecutor(max_workers=max_threads)
+    
+    try:
+        with Live(generate_dashboard(), refresh_per_second=4, screen=False) as live:
+            
             while state.is_running and (state.queue or futures):
                 
                 # Update Dashboard
                 live.update(generate_dashboard())
                 
-                # AICD
+                # AICD: Additive Increase Concurrency
                 with state.lock:
                     if state.active_tasks >= state.concurrency_limit - 1:
                         if state.concurrency_limit < state.max_concurrency_cap:
@@ -329,6 +338,14 @@ def crawl(start_url: str, keywords: List[str], max_threads: int):
                         log_activity(f"[red]Fatal Worker Error:[/red] {e}")
                 
                 time.sleep(0.1)
+                
+    except KeyboardInterrupt:
+        print("\n[!] Stopping crawler (Ctrl+C detected)...")
+        state.is_running = False
+        executor.shutdown(wait=False, cancel_futures=True)
+    finally:
+        state.is_running = False
+        executor.shutdown(wait=False)
             
     compile_final_report()
 
