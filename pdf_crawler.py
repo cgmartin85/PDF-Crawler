@@ -60,6 +60,17 @@ class CrawlerState:
         
         # Findings Storage
         # List of {topic: str, url: str, quote: str, summary: str}
+        # Stats
+        self.scanned: int = 0
+        self.analyzed_count: int = 0
+        self.relevant_count: int = 0
+        self.relevant_text_count: int = 0
+        self.relevant_vision_count: int = 0
+        self.errors: int = 0
+        self.total_content_bytes: int = 0
+        
+        # Findings Storage
+        # List of {topic: str, url: str, quote: str, summary: str}
         self.findings: List[Dict[str, str]] = []
         
         # UI Logs
@@ -82,6 +93,17 @@ class CrawlerState:
         # UI: Worker Status
         self.thread_status: Dict[str, str] = {}
         
+        # Budget / Cost
+        self.total_cost: float = 0.0
+        self.budget_limit: float = None # None means no limit
+        
+        # Reporting State
+        self.reported_directories: Set[str] = set()
+        
+        # 403 Backoff State
+        self.domain_403_level: Dict[str, int] = {}
+        self.domain_403_last_update: Dict[str, float] = {}
+        
         self.is_running = True
 
     def save_state(self, filename: str):
@@ -89,10 +111,13 @@ class CrawlerState:
             "scanned": self.scanned,
             "analyzed_count": self.analyzed_count,
             "relevant_count": self.relevant_count,
+            "relevant_text_count": self.relevant_text_count,
+            "relevant_vision_count": self.relevant_vision_count,
             "total_content_bytes": self.total_content_bytes,
             "findings": self.findings,
             "visited": list(self.visited),
             "queue": list(self.queue),
+            "reported_directories": list(self.reported_directories),
             "start_url": self.start_url,
             "keywords": self.keywords
         }
@@ -109,10 +134,13 @@ class CrawlerState:
             self.scanned = data.get("scanned", 0)
             self.analyzed_count = data.get("analyzed_count", 0)
             self.relevant_count = data.get("relevant_count", 0)
+            self.relevant_text_count = data.get("relevant_text_count", 0)
+            self.relevant_vision_count = data.get("relevant_vision_count", 0)
             self.total_content_bytes = data.get("total_content_bytes", 0)
             self.findings = data.get("findings", [])
             self.visited = set(data.get("visited", []))
             self.queue = deque(data.get("queue", []))
+            self.reported_directories = set(data.get("reported_directories", []))
             self.start_url = data.get("start_url", "")
             self.keywords = data.get("keywords", [])
             print(f"[+] Resumed state from {filename}. Queue size: {len(self.queue)}")
@@ -146,6 +174,28 @@ def log_activity(message: str):
     with state.lock:
         state.activity_log.append(message)
 
+# PRICING (Gemini Flash Estimate)
+# User requested "Gemini 3 Flash" pricing. Using conservative Flash tier estimates.
+# Input: $0.10 per 1M tokens
+# Output: $0.40 per 1M tokens
+COST_PER_1M_INPUT = 0.10
+COST_PER_1M_OUTPUT = 0.40
+
+def update_cost_callback(input_tokens, output_tokens):
+    """Callback to track cost and enforce budget."""
+    input_cost = (input_tokens / 1_000_000) * COST_PER_1M_INPUT
+    output_cost = (output_tokens / 1_000_000) * COST_PER_1M_OUTPUT
+    cost = input_cost + output_cost
+    
+    with state.lock:
+        state.total_cost += cost
+        
+        # Budget Enforcement
+        if state.budget_limit is not None and state.total_cost >= state.budget_limit:
+            if state.is_running: # One-time trigger
+                log_activity(f"[bold red]BUDGET EXCEEDED (${state.total_cost:.4f} >= ${state.budget_limit:.2f}) - STOPPING![/bold red]")
+                state.is_running = False
+
 def update_worker_status(status: str):
     """Updates the current status of the worker thread."""
     name = threading.current_thread().name
@@ -178,6 +228,37 @@ def process_url(session: requests.Session, analyzer: GeminiAnalyzer, url: str, s
         # Read timeout of 60s might be too long if user thinks it's frozen. 
         # But for 50MB files it might be needed.
         response = session.get(url, stream=True, timeout=(10, 60))
+        
+        domain = urlparse(url).netloc
+        
+        # --- 403 BACKOFF LOGIC ---
+        if response.status_code == 403:
+            sleep_time = 0
+            with state.lock:
+                now = time.time()
+                # Debounce: Only increment if last update was > 1s ago
+                # This prevents "burst" increments from multiple threads hitting errors simultaneously
+                if now - state.domain_403_last_update.get(domain, 0) > 1.0:
+                    current_level = state.domain_403_level.get(domain, 0)
+                    state.domain_403_level[domain] = current_level + 1
+                    state.domain_403_last_update[domain] = now
+                
+                # Calculate sleep based on current level
+                level = state.domain_403_level.get(domain, 1)
+                sleep_time = 2 * (2 ** (level - 1))
+            
+            update_worker_status(f"Backoff {sleep_time}s")
+            log_activity(f"[bold red]Hit 403 on {domain}. Level {level}. Sleeping {sleep_time}s...[/bold red]")
+            time.sleep(sleep_time)
+            # Re-raise to trigger main loop retry
+            raise requests.exceptions.RequestException(f"403 Forbidden on {domain}")
+        
+        # Reset on Success (200)
+        elif response.status_code == 200:
+            with state.lock:
+                if state.domain_403_level.get(domain, 0) > 0:
+                    state.domain_403_level[domain] = 0
+                    
         response.raise_for_status()
         
         content_type = response.headers.get('Content-Type', '').lower()
@@ -216,11 +297,24 @@ def process_url(session: requests.Session, analyzer: GeminiAnalyzer, url: str, s
             
             # Pass list of keywords
             t0 = time.time()
-            results = analyzer.analyze_content(text, state.keywords, logger=log_activity)
+            text_results = analyzer.analyze_content(text, state.keywords, logger=log_activity, usage_callback=update_cost_callback)
+            
+            # --- VISION ANALYSIS ---
+            vision_results = []
+            try:
+                images = analyzer.extract_images(pdf_bytes)
+                if images:
+                    update_worker_status(f"Vision ({len(images)} images)")
+                    log_activity(f"[dim]Found {len(images)} images. Analyzing visually...[/dim]")
+                    vision_results = analyzer.analyze_images(images, state.keywords, logger=log_activity, usage_callback=update_cost_callback)
+            except Exception as e:
+                log_activity(f"[yellow]Vision Error:[/yellow] {e}")
+                
+            results = text_results + vision_results
             dur = time.time() - t0
             
             update_worker_status(f"Analyzed ({len(results)} found)")
-            log_activity(f"[dim]AI finished in {dur:.1f}s (Found {len(results)})[/dim]")
+            log_activity(f"[dim]AI finished in {dur:.1f}s (Text: {len(text_results)}, Vision: {len(vision_results)})[/dim]")
             logging.debug(f"AI analysis complete for {url}. Found: {len(results)}")
             
             should_log_success = False
@@ -228,6 +322,9 @@ def process_url(session: requests.Session, analyzer: GeminiAnalyzer, url: str, s
                 state.analyzed_count += 1
                 if results:
                     state.relevant_count += len(results)
+                    state.relevant_text_count += len(text_results)
+                    state.relevant_vision_count += len(vision_results)
+                    
                     for res in results:
                         # Calculate estimated size (Quote + Summary + URL + Formatting overhead)
                         size_est = len(res.get('quote', '')) + len(res.get('summary', '')) + len(url) + 50
@@ -337,8 +434,11 @@ def generate_dashboard() -> Layout:
             
         table.add_row("Scanned Pages", str(state.scanned))
         table.add_row("PDFs Analyzed", str(state.analyzed_count))
-        table.add_row("Relevant Findings", f"[bold green]{state.relevant_count}[/bold green]")
+        table.add_row("Findings (Text)", f"[bold green]{state.relevant_text_count}[/bold green]")
+        table.add_row("Findings (Images)", f"[bold magenta]{state.relevant_vision_count}[/bold magenta]")
+        table.add_row("Total Findings", f"[bold white]{state.relevant_count}[/bold white]")
         table.add_row("Est. Report Size", f"[yellow]{size_str}[/yellow]")
+        table.add_row("Est. Cost", f"[bold red]${state.total_cost:.4f}[/bold red]")
         table.add_row("Errors", f"[red]{state.errors}[/red]")
         table.add_row("Active Threads", f"{state.active_tasks}/{state.concurrency_limit}")
         table.add_row("Queue Size", str(len(state.queue)))
@@ -375,6 +475,76 @@ def generate_dashboard() -> Layout:
     layout["footer"].update(Panel(footer_content, title="Latest Insight", border_style="yellow"))
 
     return layout
+
+def get_directory(url: str) -> str:
+    """Returns the parent directory of a URL."""
+    # Remove query/fragments
+    url = url.split('#')[0].split('?')[0]
+    # If ends with pdf, strip it
+    if url.lower().endswith('.pdf'):
+        return url.rsplit('/', 1)[0] + '/'
+        
+    if url.endswith('/'):
+        return url
+    return url.rsplit('/', 1)[0] + '/'
+
+def generate_directory_report(directory: str, findings: List[Dict], analyzer):
+    """Generates a specialized report for a completed directory."""
+    if not findings:
+        return
+
+    # Slugify directory for filename
+    safe_name = directory.replace('://', '_').replace('/', '_').replace('.', '_').strip('_')
+    filename = f"Knowledge_Compilation_{safe_name}.md"
+    
+    log_activity(f"[bold cyan]Generating Report for {directory}...[/bold cyan]")
+    
+    # Generate Executive Summary
+    summary_text = "> **Processing Summary...**"
+    try:
+        # Check budget before expensive call? The callback handles it, but good to know.
+        summary_text = analyzer.generate_executive_summary(
+            findings, 
+            source_name=directory, 
+            logger=log_activity,
+            usage_callback=update_cost_callback
+        )
+    except Exception as e:
+        summary_text = f"> **Summary Error**: {e}"
+        
+    # Compile Markdown
+    try:
+        from collections import defaultdict
+        grouped = defaultdict(list)
+        for f in findings:
+            grouped[f['topic']].append(f)
+            
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(f"# Knowledge Compilation: {directory}\n\n")
+            f.write(f"**Generated**: {time.strftime('%Y-%m-%d %H:%M')}\n")
+            f.write(f"**Source Directory**: {directory}\n")
+            f.write(f"**Total Findings**: {len(findings)}\n\n")
+            
+            f.write("## Executive Summary\n\n")
+            f.write(f"{summary_text}\n\n")
+            f.write("---\n\n")
+            
+            f.write("## Detailed Findings\n\n")
+            for topic, items in grouped.items():
+                f.write(f"### Topic: {topic}\n\n")
+                for item in items:
+                    f.write(f"#### Source: [{item['url'].split('/')[-1]}]({item['url']})\n")
+                    f.write(f"**Summary**: {item['summary']}\n\n")
+                    f.write(f"> \"{item['quote']}\"\n\n")
+                    f.write("---\n\n")
+                    
+        log_activity(f"[bold green]Report Saved: {filename}[/bold green]")
+        
+        with state.lock:
+            state.reported_directories.add(directory)
+            
+    except Exception as e:
+        log_activity(f"[red]Report Generation Failed:[/red] {e}")
 
 def compile_final_report(output_file: str = "Knowledge_Compilation.md"):
     logging.info("Compiling final report...")
@@ -479,7 +649,76 @@ def crawl(start_url: str, keywords: List[str], max_threads: int, resume: bool = 
                     state.save_state("crawler_state.json")
                     log_activity("[yellow]Auto-saved progress.[/yellow]")
                     last_save = time.time()
-                
+                    
+                # Directory Quiescence Check (Every ~5 seconds)
+                if int(time.time()) % 5 == 0:
+                    with state.lock:
+                        # 1. Identify Active Prefixes
+                        active_prefixes = set()
+                        for u in state.queue:
+                            active_prefixes.add(get_directory(u))
+                        for u in futures.values(): # futures is {future: url}
+                            active_prefixes.add(get_directory(u))
+                            
+                        # 2. Identify Candidates (Directories with findings)
+                        candidate_directories = set()
+                        for f in state.findings:
+                            candidate_directories.add(get_directory(f['url']))
+                            
+                        # 3. Check for Completion
+                        for candidate in candidate_directories:
+                            if candidate in state.reported_directories:
+                                continue
+                                
+                            # Is any active prefix a sub-directory of candidate?
+                            # e.g. Candidate: .../A/
+                            # Active: .../A/B/file.pdf -> Prefix .../A/B/ -> Starts with .../A/
+                            is_active = False
+                            for active in active_prefixes:
+                                if active.startswith(candidate):
+                                    is_active = True
+                                    break
+                            
+                            if not is_active:
+                                # Candidate is DONE
+                                # Filter findings
+                                dir_findings = [f for f in state.findings if get_directory(f['url']) == candidate]
+                                if dir_findings:
+                                    # Release lock before long operation?
+                                    # Ideally yes, but generating report might be slow.
+                                    # We should verify finding count again outside lock?
+                                    # For now, let's keep it simple: Release lock, generate report.
+                                    pass
+                        
+                    # Outside lock, process finished candidates? 
+                    # Simpler: Make a list of 'to_report', then iterate outside lock.
+                    
+                    to_report = []
+                    with state.lock:
+                        for candidate in candidate_directories:
+                            if candidate in state.reported_directories:
+                                continue
+                            is_active = False
+                            for active in active_prefixes:
+                                if active.startswith(candidate):
+                                    is_active = True
+                                    break
+                            if not is_active:
+                                to_report.append(candidate)
+                                # Mark as reported immediately to avoid duplicate triggers? 
+                                # Best to mark AFTER successful generation, but we risk double generation if loop runs fast.
+                                # Let's mark as 'reporting_in_progress' set? 
+                                # Simpler: Add to reported_directories here? 
+                                # No, if generation fails we want retry? 
+                                # Let's add to reported_directories inside generate_directory_report (at end)
+                                pass
+
+                    for candidate in to_report:
+                        # Double check we haven't reported it (race condition?)
+                        if candidate not in state.reported_directories:
+                             dir_findings = [f for f in state.findings if get_directory(f['url']) == candidate]
+                             generate_directory_report(candidate, dir_findings, analyzer)
+
                 
                 # Update Dashboard
                 live.update(generate_dashboard())
@@ -519,9 +758,7 @@ def crawl(start_url: str, keywords: List[str], max_threads: int, resume: bool = 
                         log_activity(f"[yellow]Network error for {url.split('/')[-1]}. Re-queueing...[/yellow]")
                         with state.lock:
                             state.queue.append(url)
-                            state.active_tasks -= 1 # Only if it wasn't decremented in finally? 
-                            # Wait, process_url always decrements active_tasks in finally.
-                            # So we just need to re-queue.
+                            # process_url handles decrement in finally, so we just re-queue.
                             
                     except Exception as e:
                         log_activity(f"[red]Fatal Worker Error:[/red] {e}")
@@ -556,6 +793,7 @@ if __name__ == "__main__":
     parser.add_argument('--keywords', '-k', nargs='+', help="Topics to extract (required unless resuming)")
     parser.add_argument('--threads', '-t', type=int, default=5)
     parser.add_argument('--resume', action='store_true', help="Resume from crawler_state.json")
+    parser.add_argument('--budget', type=float, default=None, help="Max budget in USD")
     args = parser.parse_args()
     
     if not args.resume and not args.keywords:
@@ -564,4 +802,9 @@ if __name__ == "__main__":
     # If resuming, keywords might be None, but crawl handles it
     kw_arg = args.keywords if args.keywords else []
     
+    # Set Budget
+    if args.budget:
+        state.budget_limit = args.budget
+        print(f"[*] Budget Limit Set: ${args.budget:.2f}")
+
     crawl(args.url, kw_arg, args.threads, args.resume)
