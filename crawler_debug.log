@@ -1,152 +1,158 @@
-2025-12-25 12:05:59,229 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures
-2025-12-25 12:05:59,242 - ThreadPoolExecutor-0_0 - DEBUG - Starting new HTTPS connection (1): www.justice.gov:443
-2025-12-25 12:06:00,687 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures HTTP/1.1" 200 12509
-2025-12-25 12:06:00,689 - ThreadPoolExecutor-0_0 - INFO - Scanning: doj-disclosures
-2025-12-25 12:06:00,870 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-1-files
-2025-12-25 12:06:00,871 - ThreadPoolExecutor-0_2 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-3-files
-2025-12-25 12:06:00,871 - ThreadPoolExecutor-0_1 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-2-files
-2025-12-25 12:06:00,872 - ThreadPoolExecutor-0_3 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-4-files
-2025-12-25 12:06:00,874 - ThreadPoolExecutor-0_4 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-5-files
-2025-12-25 12:06:00,882 - ThreadPoolExecutor-0_2 - DEBUG - Starting new HTTPS connection (2): www.justice.gov:443
-2025-12-25 12:06:00,883 - ThreadPoolExecutor-0_1 - DEBUG - Starting new HTTPS connection (3): www.justice.gov:443
-2025-12-25 12:06:00,885 - ThreadPoolExecutor-0_3 - DEBUG - Starting new HTTPS connection (4): www.justice.gov:443
-2025-12-25 12:06:00,885 - ThreadPoolExecutor-0_4 - DEBUG - Starting new HTTPS connection (5): www.justice.gov:443
-2025-12-25 12:06:00,949 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-1-files HTTP/1.1" 200 11426
-2025-12-25 12:06:00,950 - ThreadPoolExecutor-0_0 - INFO - Scanning: data-set-1-files
-2025-12-25 12:06:01,033 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-6-files
-2025-12-25 12:06:01,098 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-6-files HTTP/1.1" 200 10832
-2025-12-25 12:06:01,099 - ThreadPoolExecutor-0_0 - INFO - Scanning: data-set-6-files
-2025-12-25 12:06:01,159 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-7-files
-2025-12-25 12:06:01,235 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-7-files HTTP/1.1" 200 10857
-2025-12-25 12:06:01,235 - ThreadPoolExecutor-0_0 - INFO - Scanning: data-set-7-files
-2025-12-25 12:06:01,331 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-8-files
-2025-12-25 12:06:01,403 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-8-files HTTP/1.1" 200 11448
-2025-12-25 12:06:01,404 - ThreadPoolExecutor-0_0 - INFO - Scanning: data-set-8-files
-2025-12-25 12:06:01,482 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
-2025-12-25 12:06:01,583 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf HTTP/1.1" 200 1001960
-2025-12-25 12:06:01,585 - ThreadPoolExecutor-0_0 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf (Size: 1001960)
-2025-12-25 12:06:01,585 - ThreadPoolExecutor-0_0 - INFO - Downloading PDF (978.5KB): A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
-2025-12-25 12:06:01,751 - ThreadPoolExecutor-0_0 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
-2025-12-25 12:06:01,751 - ThreadPoolExecutor-0_0 - INFO - Extracting text... A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
-2025-12-25 12:06:02,609 - ThreadPoolExecutor-0_3 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-4-files HTTP/1.1" 200 11395
-2025-12-25 12:06:02,611 - ThreadPoolExecutor-0_3 - INFO - Scanning: data-set-4-files
-2025-12-25 12:06:02,652 - ThreadPoolExecutor-0_2 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-3-files HTTP/1.1" 200 11371
-2025-12-25 12:06:02,667 - ThreadPoolExecutor-0_2 - INFO - Scanning: data-set-3-files
-2025-12-25 12:06:02,729 - ThreadPoolExecutor-0_1 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-2-files HTTP/1.1" 200 11350
-2025-12-25 12:06:02,745 - ThreadPoolExecutor-0_1 - INFO - Scanning: data-set-2-files
-2025-12-25 12:06:02,746 - ThreadPoolExecutor-0_4 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-5-files HTTP/1.1" 200 11352
-2025-12-25 12:06:02,760 - ThreadPoolExecutor-0_4 - INFO - Scanning: data-set-5-files
-2025-12-25 12:06:02,874 - ThreadPoolExecutor-0_3 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
-2025-12-25 12:06:03,030 - ThreadPoolExecutor-0_2 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/C.%20Contact%20Book%20(Redacted).pdf
-2025-12-25 12:06:03,134 - ThreadPoolExecutor-0_1 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf
-2025-12-25 12:06:03,146 - ThreadPoolExecutor-0_4 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf
-2025-12-25 12:06:03,455 - ThreadPoolExecutor-0_2 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/C.%20Contact%20Book%20(Redacted).pdf HTTP/1.1" 200 18962352
-2025-12-25 12:06:03,457 - ThreadPoolExecutor-0_2 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/C.%20Contact%20Book%20(Redacted).pdf (Size: 18962352)
-2025-12-25 12:06:03,458 - ThreadPoolExecutor-0_3 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf HTTP/1.1" 200 12051634
-2025-12-25 12:06:03,459 - ThreadPoolExecutor-0_1 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf HTTP/1.1" 200 136017
-2025-12-25 12:06:03,469 - ThreadPoolExecutor-0_0 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf. Text length: 11955
-2025-12-25 12:06:03,469 - ThreadPoolExecutor-0_2 - INFO - Downloading PDF (18517.9KB): C.%20Contact%20Book%20(Redacted).pdf
-2025-12-25 12:06:03,470 - ThreadPoolExecutor-0_4 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf HTTP/1.1" 200 138342
-2025-12-25 12:06:03,472 - ThreadPoolExecutor-0_3 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf (Size: 12051634)
-2025-12-25 12:06:03,474 - ThreadPoolExecutor-0_1 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf (Size: 136017)
-2025-12-25 12:06:03,475 - ThreadPoolExecutor-0_0 - INFO - Querying AI... A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
-2025-12-25 12:06:03,476 - ThreadPoolExecutor-0_4 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf (Size: 138342)
-2025-12-25 12:06:03,476 - ThreadPoolExecutor-0_3 - INFO - Downloading PDF (11769.2KB): B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
-2025-12-25 12:06:03,477 - ThreadPoolExecutor-0_1 - INFO - Downloading PDF (132.8KB): D.%20Masseuse%20List%20(Redacted).pdf
-2025-12-25 12:06:03,477 - ThreadPoolExecutor-0_0 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
-2025-12-25 12:06:03,478 - ThreadPoolExecutor-0_4 - INFO - Downloading PDF (135.1KB): 2025.07%20DOJ%20FBI%20Memorandum.pdf
-2025-12-25 12:06:03,480 - ThreadPoolExecutor-0_0 - DEBUG - AI analysis complete for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf. Found: 0
-2025-12-25 12:06:03,482 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf
-2025-12-25 12:06:03,488 - ThreadPoolExecutor-0_1 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf
-2025-12-25 12:06:03,489 - ThreadPoolExecutor-0_1 - INFO - Extracting text... D.%20Masseuse%20List%20(Redacted).pdf
-2025-12-25 12:06:03,535 - ThreadPoolExecutor-0_4 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf
-2025-12-25 12:06:03,537 - ThreadPoolExecutor-0_4 - INFO - Extracting text... 2025.07%20DOJ%20FBI%20Memorandum.pdf
-2025-12-25 12:06:03,800 - ThreadPoolExecutor-0_4 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf. Text length: 4439
-2025-12-25 12:06:03,800 - ThreadPoolExecutor-0_4 - INFO - Querying AI... 2025.07%20DOJ%20FBI%20Memorandum.pdf
-2025-12-25 12:06:03,815 - ThreadPoolExecutor-0_4 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf
-2025-12-25 12:06:03,824 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/Maxwell%20Proffer/Interview%20Transcript%20-%20Maxwell%202025.07.24%20(Redacted).pdf HTTP/1.1" 200 900791
-2025-12-25 12:06:03,828 - ThreadPoolExecutor-0_4 - DEBUG - AI analysis complete for https://www.justice.gov/multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf. Found: 0
-2025-12-25 12:06:03,841 - ThreadPoolExecutor-0_0 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf (Size: 900791)
-2025-12-25 12:06:03,859 - ThreadPoolExecutor-0_0 - INFO - Downloading PDF (879.7KB): Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf
-2025-12-25 12:06:03,858 - ThreadPoolExecutor-0_4 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf
-2025-12-25 12:06:03,905 - ThreadPoolExecutor-0_1 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf. Text length: 1809
-2025-12-25 12:06:03,907 - ThreadPoolExecutor-0_1 - INFO - Querying AI... D.%20Masseuse%20List%20(Redacted).pdf
-2025-12-25 12:06:03,909 - ThreadPoolExecutor-0_1 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf
-2025-12-25 12:06:03,910 - ThreadPoolExecutor-0_1 - DEBUG - AI analysis complete for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf. Found: 0
-2025-12-25 12:06:03,911 - ThreadPoolExecutor-0_1 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf
-2025-12-25 12:06:03,973 - ThreadPoolExecutor-0_0 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf
-2025-12-25 12:06:03,974 - ThreadPoolExecutor-0_0 - INFO - Extracting text... Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf
-2025-12-25 12:06:04,011 - ThreadPoolExecutor-0_4 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/Maxwell%20Proffer/Interview%20Transcript%20-%20Maxwell%202025.07.24-cft%20(Redacted).pdf HTTP/1.1" 200 1021783
-2025-12-25 12:06:04,025 - ThreadPoolExecutor-0_4 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf (Size: 1021783)
-2025-12-25 12:06:04,039 - ThreadPoolExecutor-0_4 - INFO - Downloading PDF (997.8KB): Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf
-2025-12-25 12:06:04,054 - ThreadPoolExecutor-0_1 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/Maxwell%20Proffer/Interview%20Transcript%20-%20Maxwell%202025.07.25-cft%20(Redacted).pdf HTTP/1.1" 200 557044
-2025-12-25 12:06:04,131 - ThreadPoolExecutor-0_1 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf (Size: 557044)
-2025-12-25 12:06:04,132 - ThreadPoolExecutor-0_1 - INFO - Downloading PDF (544.0KB): Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf
-2025-12-25 12:06:04,496 - ThreadPoolExecutor-0_1 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf
-2025-12-25 12:06:04,511 - ThreadPoolExecutor-0_1 - INFO - Extracting text... Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf
-2025-12-25 12:06:04,894 - ThreadPoolExecutor-0_4 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf
-2025-12-25 12:06:04,895 - ThreadPoolExecutor-0_4 - INFO - Extracting text... Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf
-2025-12-25 12:06:11,679 - ThreadPoolExecutor-0_1 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf. Text length: 213809
-2025-12-25 12:06:11,714 - ThreadPoolExecutor-0_1 - INFO - Querying AI... Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf
-2025-12-25 12:06:11,714 - ThreadPoolExecutor-0_1 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf
-2025-12-25 12:06:11,746 - ThreadPoolExecutor-0_1 - INFO - AFC is enabled with max remote calls: 10.
-2025-12-25 12:06:11,765 - ThreadPoolExecutor-0_1 - DEBUG - connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
-2025-12-25 12:06:11,912 - ThreadPoolExecutor-0_1 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000151D98C27B0>
-2025-12-25 12:06:11,923 - ThreadPoolExecutor-0_1 - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x00000151D942B800> server_hostname='generativelanguage.googleapis.com' timeout=None
-2025-12-25 12:06:12,117 - ThreadPoolExecutor-0_1 - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000151D98B9450>
-2025-12-25 12:06:12,132 - ThreadPoolExecutor-0_1 - DEBUG - send_request_headers.started request=<Request [b'POST']>
-2025-12-25 12:06:12,210 - ThreadPoolExecutor-0_1 - DEBUG - send_request_headers.complete
-2025-12-25 12:06:12,243 - ThreadPoolExecutor-0_1 - DEBUG - send_request_body.started request=<Request [b'POST']>
-2025-12-25 12:06:12,349 - ThreadPoolExecutor-0_1 - DEBUG - send_request_body.complete
-2025-12-25 12:06:12,365 - ThreadPoolExecutor-0_1 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
-2025-12-25 12:06:14,201 - ThreadPoolExecutor-0_4 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf. Text length: 350132
-2025-12-25 12:06:14,230 - ThreadPoolExecutor-0_4 - INFO - Querying AI... Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf
-2025-12-25 12:06:14,244 - ThreadPoolExecutor-0_4 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf
-2025-12-25 12:06:14,246 - ThreadPoolExecutor-0_4 - INFO - AFC is enabled with max remote calls: 10.
-2025-12-25 12:06:14,313 - ThreadPoolExecutor-0_4 - DEBUG - connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
-2025-12-25 12:06:14,402 - ThreadPoolExecutor-0_4 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000151DB438690>
-2025-12-25 12:06:14,403 - ThreadPoolExecutor-0_4 - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x00000151D942B800> server_hostname='generativelanguage.googleapis.com' timeout=None
-2025-12-25 12:06:14,465 - ThreadPoolExecutor-0_4 - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000151D9A5D0F0>
-2025-12-25 12:06:14,465 - ThreadPoolExecutor-0_4 - DEBUG - send_request_headers.started request=<Request [b'POST']>
-2025-12-25 12:06:14,494 - ThreadPoolExecutor-0_4 - DEBUG - send_request_headers.complete
-2025-12-25 12:06:14,495 - ThreadPoolExecutor-0_4 - DEBUG - send_request_body.started request=<Request [b'POST']>
-2025-12-25 12:06:14,533 - ThreadPoolExecutor-0_4 - DEBUG - send_request_body.complete
-2025-12-25 12:06:14,534 - ThreadPoolExecutor-0_4 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
-2025-12-25 12:06:16,668 - ThreadPoolExecutor-0_0 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf. Text length: 361286
-2025-12-25 12:06:16,669 - ThreadPoolExecutor-0_0 - INFO - Querying AI... Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf
-2025-12-25 12:06:16,669 - ThreadPoolExecutor-0_0 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf
-2025-12-25 12:06:16,671 - ThreadPoolExecutor-0_0 - INFO - AFC is enabled with max remote calls: 10.
-2025-12-25 12:06:16,674 - ThreadPoolExecutor-0_0 - DEBUG - connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
-2025-12-25 12:06:16,727 - ThreadPoolExecutor-0_0 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000151D986D940>
-2025-12-25 12:06:16,727 - ThreadPoolExecutor-0_0 - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x00000151D942B800> server_hostname='generativelanguage.googleapis.com' timeout=None
-2025-12-25 12:06:16,791 - ThreadPoolExecutor-0_0 - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000151D984BE30>
-2025-12-25 12:06:16,791 - ThreadPoolExecutor-0_0 - DEBUG - send_request_headers.started request=<Request [b'POST']>
-2025-12-25 12:06:16,792 - ThreadPoolExecutor-0_0 - DEBUG - send_request_headers.complete
-2025-12-25 12:06:16,792 - ThreadPoolExecutor-0_0 - DEBUG - send_request_body.started request=<Request [b'POST']>
-2025-12-25 12:06:16,794 - ThreadPoolExecutor-0_0 - DEBUG - send_request_body.complete
-2025-12-25 12:06:16,794 - ThreadPoolExecutor-0_0 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
-2025-12-25 12:06:16,840 - ThreadPoolExecutor-0_3 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
-2025-12-25 12:06:16,840 - ThreadPoolExecutor-0_3 - INFO - Extracting text... B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
-2025-12-25 12:06:18,977 - ThreadPoolExecutor-0_2 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/C.%20Contact%20Book%20(Redacted).pdf
-2025-12-25 12:06:18,998 - ThreadPoolExecutor-0_2 - INFO - Extracting text... C.%20Contact%20Book%20(Redacted).pdf
-2025-12-25 12:06:24,260 - ThreadPoolExecutor-0_0 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/event-stream'), (b'Content-Disposition', b'attachment'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Transfer-Encoding', b'chunked'), (b'Date', b'Thu, 25 Dec 2025 20:06:23 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=7294'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000')])
-2025-12-25 12:06:24,276 - ThreadPoolExecutor-0_0 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:streamGenerateContent?alt=sse "HTTP/1.1 200 OK"
-2025-12-25 12:06:24,342 - ThreadPoolExecutor-0_0 - DEBUG - receive_response_body.started request=<Request [b'POST']>
-2025-12-25 12:06:24,428 - ThreadPoolExecutor-0_0 - INFO - Receiving AI response... (Token stream started)
-2025-12-25 12:06:25,051 - ThreadPoolExecutor-0_4 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/event-stream'), (b'Content-Disposition', b'attachment'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Transfer-Encoding', b'chunked'), (b'Date', b'Thu, 25 Dec 2025 20:06:24 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=10486'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000')])
-2025-12-25 12:06:25,086 - ThreadPoolExecutor-0_4 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:streamGenerateContent?alt=sse "HTTP/1.1 200 OK"
-2025-12-25 12:06:25,128 - ThreadPoolExecutor-0_4 - DEBUG - receive_response_body.started request=<Request [b'POST']>
-2025-12-25 12:06:25,141 - ThreadPoolExecutor-0_4 - INFO - Receiving AI response... (Token stream started)
-2025-12-25 12:06:25,442 - ThreadPoolExecutor-0_0 - DEBUG - receive_response_body.complete
-2025-12-25 12:06:25,475 - ThreadPoolExecutor-0_0 - DEBUG - response_closed.started
-2025-12-25 12:06:25,506 - ThreadPoolExecutor-0_0 - DEBUG - response_closed.complete
-2025-12-25 12:06:25,554 - ThreadPoolExecutor-0_0 - DEBUG - AI analysis complete for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf. Found: 2
-2025-12-25 12:06:25,568 - ThreadPoolExecutor-0_0 - INFO - FOUND 2 RELEVANT ITEMS!
-2025-12-25 12:06:26,170 - ThreadPoolExecutor-0_4 - DEBUG - receive_response_body.complete
-2025-12-25 12:06:26,191 - ThreadPoolExecutor-0_4 - DEBUG - response_closed.started
-2025-12-25 12:06:26,191 - ThreadPoolExecutor-0_4 - DEBUG - response_closed.complete
-2025-12-25 12:06:26,235 - ThreadPoolExecutor-0_4 - DEBUG - AI analysis complete for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf. Found: 2
-2025-12-25 12:06:28,566 - ThreadPoolExecutor-0_3 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf. Text length: 114748
-2025-12-25 12:06:28,579 - ThreadPoolExecutor-0_3 - INFO - Querying AI... B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
-2025-12-25 12:06:34,751 - ThreadPoolExecutor-0_2 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/C.%20Contact%20Book%20(Redacted).pdf. Text length: 15675
-2025-12-25 12:06:34,751 - ThreadPoolExecutor-0_2 - INFO - Querying AI... C.%20Contact%20Book%20(Redacted).pdf
+2025-12-25 16:50:08,482 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures
+2025-12-25 16:50:08,497 - ThreadPoolExecutor-0_0 - DEBUG - Starting new HTTPS connection (1): www.justice.gov:443
+2025-12-25 16:50:09,543 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures HTTP/1.1" 200 12509
+2025-12-25 16:50:09,547 - ThreadPoolExecutor-0_0 - INFO - Scanning: doj-disclosures
+2025-12-25 16:50:09,827 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-1-files
+2025-12-25 16:50:09,828 - ThreadPoolExecutor-0_3 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-4-files
+2025-12-25 16:50:09,828 - ThreadPoolExecutor-0_4 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-5-files
+2025-12-25 16:50:09,827 - ThreadPoolExecutor-0_2 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-3-files
+2025-12-25 16:50:09,827 - ThreadPoolExecutor-0_1 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-2-files
+2025-12-25 16:50:09,834 - ThreadPoolExecutor-0_4 - DEBUG - Starting new HTTPS connection (2): www.justice.gov:443
+2025-12-25 16:50:09,835 - ThreadPoolExecutor-0_3 - DEBUG - Starting new HTTPS connection (3): www.justice.gov:443
+2025-12-25 16:50:09,838 - ThreadPoolExecutor-0_1 - DEBUG - Starting new HTTPS connection (4): www.justice.gov:443
+2025-12-25 16:50:09,873 - ThreadPoolExecutor-0_2 - DEBUG - Starting new HTTPS connection (5): www.justice.gov:443
+2025-12-25 16:50:09,961 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-1-files HTTP/1.1" 200 11427
+2025-12-25 16:50:09,962 - ThreadPoolExecutor-0_0 - INFO - Scanning: data-set-1-files
+2025-12-25 16:50:10,012 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-6-files
+2025-12-25 16:50:10,211 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-6-files HTTP/1.1" 200 10832
+2025-12-25 16:50:10,212 - ThreadPoolExecutor-0_0 - INFO - Scanning: data-set-6-files
+2025-12-25 16:50:10,254 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-7-files
+2025-12-25 16:50:10,333 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-7-files HTTP/1.1" 200 10857
+2025-12-25 16:50:10,334 - ThreadPoolExecutor-0_0 - INFO - Scanning: data-set-7-files
+2025-12-25 16:50:10,416 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/epstein/doj-disclosures/data-set-8-files
+2025-12-25 16:50:10,724 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-8-files HTTP/1.1" 200 11448
+2025-12-25 16:50:10,724 - ThreadPoolExecutor-0_0 - INFO - Scanning: data-set-8-files
+2025-12-25 16:50:10,769 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
+2025-12-25 16:50:10,933 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf HTTP/1.1" 200 1001960
+2025-12-25 16:50:10,935 - ThreadPoolExecutor-0_0 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf (Size: 1001960)
+2025-12-25 16:50:10,936 - ThreadPoolExecutor-0_0 - INFO - Downloading PDF (978.5KB): A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
+2025-12-25 16:50:11,078 - ThreadPoolExecutor-0_1 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-2-files HTTP/1.1" 200 11350
+2025-12-25 16:50:11,079 - ThreadPoolExecutor-0_1 - INFO - Scanning: data-set-2-files
+2025-12-25 16:50:11,116 - ThreadPoolExecutor-0_3 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-4-files HTTP/1.1" 200 11395
+2025-12-25 16:50:11,126 - ThreadPoolExecutor-0_3 - INFO - Scanning: data-set-4-files
+2025-12-25 16:50:11,126 - ThreadPoolExecutor-0_2 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-3-files HTTP/1.1" 200 11371
+2025-12-25 16:50:11,125 - ThreadPoolExecutor-0_1 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
+2025-12-25 16:50:11,128 - ThreadPoolExecutor-0_2 - INFO - Scanning: data-set-3-files
+2025-12-25 16:50:11,163 - ThreadPoolExecutor-0_0 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
+2025-12-25 16:50:11,164 - ThreadPoolExecutor-0_0 - INFO - Extracting text... A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
+2025-12-25 16:50:11,174 - ThreadPoolExecutor-0_3 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/C.%20Contact%20Book%20(Redacted).pdf
+2025-12-25 16:50:11,342 - ThreadPoolExecutor-0_2 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf
+2025-12-25 16:50:11,372 - ThreadPoolExecutor-0_4 - DEBUG - https://www.justice.gov:443 "GET /epstein/doj-disclosures/data-set-5-files HTTP/1.1" 200 11352
+2025-12-25 16:50:11,373 - ThreadPoolExecutor-0_4 - INFO - Scanning: data-set-5-files
+2025-12-25 16:50:11,433 - ThreadPoolExecutor-0_4 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf
+2025-12-25 16:50:11,433 - ThreadPoolExecutor-0_3 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/C.%20Contact%20Book%20(Redacted).pdf HTTP/1.1" 200 18962352
+2025-12-25 16:50:11,434 - ThreadPoolExecutor-0_3 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/C.%20Contact%20Book%20(Redacted).pdf (Size: 18962352)
+2025-12-25 16:50:11,435 - ThreadPoolExecutor-0_3 - INFO - Downloading PDF (18517.9KB): C.%20Contact%20Book%20(Redacted).pdf
+2025-12-25 16:50:11,436 - ThreadPoolExecutor-0_1 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf HTTP/1.1" 200 12051634
+2025-12-25 16:50:11,439 - ThreadPoolExecutor-0_1 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf (Size: 12051634)
+2025-12-25 16:50:11,440 - ThreadPoolExecutor-0_1 - INFO - Downloading PDF (11769.2KB): B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
+2025-12-25 16:50:11,440 - ThreadPoolExecutor-0_2 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf HTTP/1.1" 200 136017
+2025-12-25 16:50:11,441 - ThreadPoolExecutor-0_2 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf (Size: 136017)
+2025-12-25 16:50:11,442 - ThreadPoolExecutor-0_2 - INFO - Downloading PDF (132.8KB): D.%20Masseuse%20List%20(Redacted).pdf
+2025-12-25 16:50:11,609 - ThreadPoolExecutor-0_4 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf HTTP/1.1" 200 138342
+2025-12-25 16:50:11,625 - ThreadPoolExecutor-0_4 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf (Size: 138342)
+2025-12-25 16:50:11,655 - ThreadPoolExecutor-0_4 - INFO - Downloading PDF (135.1KB): 2025.07%20DOJ%20FBI%20Memorandum.pdf
+2025-12-25 16:50:11,718 - ThreadPoolExecutor-0_2 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf
+2025-12-25 16:50:11,734 - ThreadPoolExecutor-0_2 - INFO - Extracting text... D.%20Masseuse%20List%20(Redacted).pdf
+2025-12-25 16:50:11,761 - ThreadPoolExecutor-0_4 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf
+2025-12-25 16:50:11,781 - ThreadPoolExecutor-0_4 - INFO - Extracting text... 2025.07%20DOJ%20FBI%20Memorandum.pdf
+2025-12-25 16:50:12,111 - ThreadPoolExecutor-0_4 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf. Text length: 4439
+2025-12-25 16:50:12,121 - ThreadPoolExecutor-0_4 - INFO - Querying AI... 2025.07%20DOJ%20FBI%20Memorandum.pdf
+2025-12-25 16:50:12,136 - ThreadPoolExecutor-0_4 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf
+2025-12-25 16:50:12,141 - ThreadPoolExecutor-0_4 - DEBUG - AI analysis complete for https://www.justice.gov/multimedia/DOJ%20Disclosures/BOP%20Video%20Footage/2025.07%20DOJ%20FBI%20Memorandum.pdf. Found: 0
+2025-12-25 16:50:12,143 - ThreadPoolExecutor-0_4 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf
+2025-12-25 16:50:12,206 - ThreadPoolExecutor-0_2 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf. Text length: 1809
+2025-12-25 16:50:12,207 - ThreadPoolExecutor-0_2 - INFO - Querying AI... D.%20Masseuse%20List%20(Redacted).pdf
+2025-12-25 16:50:12,214 - ThreadPoolExecutor-0_2 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf
+2025-12-25 16:50:12,230 - ThreadPoolExecutor-0_2 - DEBUG - AI analysis complete for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/D.%20Masseuse%20List%20(Redacted).pdf. Found: 0
+2025-12-25 16:50:12,245 - ThreadPoolExecutor-0_2 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf
+2025-12-25 16:50:12,318 - ThreadPoolExecutor-0_0 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf. Text length: 11955
+2025-12-25 16:50:12,319 - ThreadPoolExecutor-0_0 - INFO - Querying AI... A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
+2025-12-25 16:50:12,319 - ThreadPoolExecutor-0_0 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
+2025-12-25 16:50:12,330 - ThreadPoolExecutor-0_0 - DEBUG - AI analysis complete for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/A.%20Evidence%20List%20from%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf. Found: 0
+2025-12-25 16:50:12,331 - ThreadPoolExecutor-0_0 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf
+2025-12-25 16:50:12,448 - ThreadPoolExecutor-0_0 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/Maxwell%20Proffer/Interview%20Transcript%20-%20Maxwell%202025.07.25-cft%20(Redacted).pdf HTTP/1.1" 200 557044
+2025-12-25 16:50:12,449 - ThreadPoolExecutor-0_0 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf (Size: 557044)
+2025-12-25 16:50:12,449 - ThreadPoolExecutor-0_0 - INFO - Downloading PDF (544.0KB): Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf
+2025-12-25 16:50:12,526 - ThreadPoolExecutor-0_2 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/Maxwell%20Proffer/Interview%20Transcript%20-%20Maxwell%202025.07.24-cft%20(Redacted).pdf HTTP/1.1" 200 1021783
+2025-12-25 16:50:12,528 - ThreadPoolExecutor-0_2 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf (Size: 1021783)
+2025-12-25 16:50:12,528 - ThreadPoolExecutor-0_2 - INFO - Downloading PDF (997.8KB): Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf
+2025-12-25 16:50:12,545 - ThreadPoolExecutor-0_4 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/Maxwell%20Proffer/Interview%20Transcript%20-%20Maxwell%202025.07.24%20(Redacted).pdf HTTP/1.1" 200 900791
+2025-12-25 16:50:12,546 - ThreadPoolExecutor-0_4 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf (Size: 900791)
+2025-12-25 16:50:12,546 - ThreadPoolExecutor-0_4 - INFO - Downloading PDF (879.7KB): Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf
+2025-12-25 16:50:12,813 - ThreadPoolExecutor-0_3 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/C.%20Contact%20Book%20(Redacted).pdf
+2025-12-25 16:50:12,814 - ThreadPoolExecutor-0_3 - INFO - Extracting text... C.%20Contact%20Book%20(Redacted).pdf
+2025-12-25 16:50:13,016 - ThreadPoolExecutor-0_0 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf
+2025-12-25 16:50:13,043 - ThreadPoolExecutor-0_0 - INFO - Extracting text... Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf
+2025-12-25 16:50:13,042 - ThreadPoolExecutor-0_4 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf
+2025-12-25 16:50:13,122 - ThreadPoolExecutor-0_4 - INFO - Extracting text... Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf
+2025-12-25 16:50:13,230 - ThreadPoolExecutor-0_2 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf
+2025-12-25 16:50:13,244 - ThreadPoolExecutor-0_2 - INFO - Extracting text... Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf
+2025-12-25 16:50:19,735 - ThreadPoolExecutor-0_0 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf. Text length: 213809
+2025-12-25 16:50:19,761 - ThreadPoolExecutor-0_0 - INFO - Querying AI... Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf
+2025-12-25 16:50:19,787 - ThreadPoolExecutor-0_0 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25-cft (Redacted).pdf
+2025-12-25 16:50:19,852 - ThreadPoolExecutor-0_0 - INFO - AFC is enabled with max remote calls: 10.
+2025-12-25 16:50:19,933 - ThreadPoolExecutor-0_0 - DEBUG - connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+2025-12-25 16:50:20,095 - ThreadPoolExecutor-0_0 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001E3F28127B0>
+2025-12-25 16:50:20,161 - ThreadPoolExecutor-0_0 - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x000001E3F237F650> server_hostname='generativelanguage.googleapis.com' timeout=None
+2025-12-25 16:50:20,345 - ThreadPoolExecutor-0_0 - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001E3F27FBED0>
+2025-12-25 16:50:20,346 - ThreadPoolExecutor-0_0 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2025-12-25 16:50:20,378 - ThreadPoolExecutor-0_0 - DEBUG - send_request_headers.complete
+2025-12-25 16:50:20,394 - ThreadPoolExecutor-0_0 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2025-12-25 16:50:20,493 - ThreadPoolExecutor-0_0 - DEBUG - send_request_body.complete
+2025-12-25 16:50:20,548 - ThreadPoolExecutor-0_0 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2025-12-25 16:50:21,698 - ThreadPoolExecutor-0_2 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf. Text length: 350132
+2025-12-25 16:50:21,719 - ThreadPoolExecutor-0_2 - INFO - Querying AI... Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf
+2025-12-25 16:50:21,720 - ThreadPoolExecutor-0_2 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf
+2025-12-25 16:50:21,721 - ThreadPoolExecutor-0_2 - INFO - AFC is enabled with max remote calls: 10.
+2025-12-25 16:50:21,723 - ThreadPoolExecutor-0_2 - DEBUG - connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+2025-12-25 16:50:21,883 - ThreadPoolExecutor-0_2 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001E3F2E18050>
+2025-12-25 16:50:21,899 - ThreadPoolExecutor-0_2 - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x000001E3F237F650> server_hostname='generativelanguage.googleapis.com' timeout=None
+2025-12-25 16:50:22,043 - ThreadPoolExecutor-0_2 - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001E3F29AC2B0>
+2025-12-25 16:50:22,062 - ThreadPoolExecutor-0_2 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2025-12-25 16:50:22,106 - ThreadPoolExecutor-0_2 - DEBUG - send_request_headers.complete
+2025-12-25 16:50:22,107 - ThreadPoolExecutor-0_2 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2025-12-25 16:50:22,215 - ThreadPoolExecutor-0_2 - DEBUG - send_request_body.complete
+2025-12-25 16:50:22,222 - ThreadPoolExecutor-0_2 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2025-12-25 16:50:25,712 - ThreadPoolExecutor-0_4 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf. Text length: 361286
+2025-12-25 16:50:25,726 - ThreadPoolExecutor-0_4 - INFO - Querying AI... Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf
+2025-12-25 16:50:25,741 - ThreadPoolExecutor-0_4 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24 (Redacted).pdf
+2025-12-25 16:50:25,773 - ThreadPoolExecutor-0_4 - INFO - AFC is enabled with max remote calls: 10.
+2025-12-25 16:50:25,789 - ThreadPoolExecutor-0_4 - DEBUG - connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+2025-12-25 16:50:25,928 - ThreadPoolExecutor-0_4 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001E3F27BCC30>
+2025-12-25 16:50:25,929 - ThreadPoolExecutor-0_4 - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x000001E3F237F650> server_hostname='generativelanguage.googleapis.com' timeout=None
+2025-12-25 16:50:26,053 - ThreadPoolExecutor-0_4 - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001E3F309CB90>
+2025-12-25 16:50:26,054 - ThreadPoolExecutor-0_4 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2025-12-25 16:50:26,087 - ThreadPoolExecutor-0_4 - DEBUG - send_request_headers.complete
+2025-12-25 16:50:26,094 - ThreadPoolExecutor-0_4 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2025-12-25 16:50:26,177 - ThreadPoolExecutor-0_4 - DEBUG - send_request_body.complete
+2025-12-25 16:50:26,177 - ThreadPoolExecutor-0_4 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2025-12-25 16:50:27,542 - ThreadPoolExecutor-0_1 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
+2025-12-25 16:50:27,561 - ThreadPoolExecutor-0_1 - INFO - Extracting text... B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf
+2025-12-25 16:50:29,421 - ThreadPoolExecutor-0_3 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/C.%20Contact%20Book%20(Redacted).pdf. Text length: 15675
+2025-12-25 16:50:29,441 - ThreadPoolExecutor-0_3 - INFO - Querying AI... C.%20Contact%20Book%20(Redacted).pdf
+2025-12-25 16:50:29,455 - ThreadPoolExecutor-0_3 - DEBUG - Sending prompt to AI for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/C.%20Contact%20Book%20(Redacted).pdf
+2025-12-25 16:50:29,472 - ThreadPoolExecutor-0_3 - DEBUG - AI analysis complete for https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/C.%20Contact%20Book%20(Redacted).pdf. Found: 0
+2025-12-25 16:50:29,483 - ThreadPoolExecutor-0_3 - DEBUG - Starting processing for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25 (Redacted).pdf
+2025-12-25 16:50:29,724 - ThreadPoolExecutor-0_2 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/event-stream'), (b'Content-Disposition', b'attachment'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Transfer-Encoding', b'chunked'), (b'Date', b'Fri, 26 Dec 2025 00:50:28 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=7528'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000')])
+2025-12-25 16:50:29,725 - ThreadPoolExecutor-0_2 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:streamGenerateContent?alt=sse "HTTP/1.1 200 OK"
+2025-12-25 16:50:29,726 - ThreadPoolExecutor-0_2 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2025-12-25 16:50:29,730 - ThreadPoolExecutor-0_3 - DEBUG - https://www.justice.gov:443 "GET /multimedia/DOJ%20Disclosures/Maxwell%20Proffer/Interview%20Transcript%20-%20Maxwell%202025.07.25%20(Redacted).pdf HTTP/1.1" 200 635815
+2025-12-25 16:50:29,731 - ThreadPoolExecutor-0_3 - DEBUG - PDF found: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25 (Redacted).pdf (Size: 635815)
+2025-12-25 16:50:29,731 - ThreadPoolExecutor-0_3 - INFO - Downloading PDF (620.9KB): Interview Transcript - Maxwell 2025.07.25 (Redacted).pdf
+2025-12-25 16:50:29,773 - ThreadPoolExecutor-0_2 - INFO - Receiving AI response... (Token stream started)
+2025-12-25 16:50:30,302 - ThreadPoolExecutor-0_3 - DEBUG - Download complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25 (Redacted).pdf
+2025-12-25 16:50:30,303 - ThreadPoolExecutor-0_3 - INFO - Extracting text... Interview Transcript - Maxwell 2025.07.25 (Redacted).pdf
+2025-12-25 16:50:30,775 - ThreadPoolExecutor-0_2 - DEBUG - receive_response_body.complete
+2025-12-25 16:50:30,787 - ThreadPoolExecutor-0_2 - DEBUG - response_closed.started
+2025-12-25 16:50:30,804 - ThreadPoolExecutor-0_2 - DEBUG - response_closed.complete
+2025-12-25 16:50:30,827 - ThreadPoolExecutor-0_2 - DEBUG - AI analysis complete for https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.24-cft (Redacted).pdf. Found: 2
+2025-12-25 16:50:30,838 - ThreadPoolExecutor-0_2 - INFO - FOUND 2 RELEVANT ITEMS!
+2025-12-25 16:50:31,308 - ThreadPoolExecutor-0_4 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/event-stream'), (b'Content-Disposition', b'attachment'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Transfer-Encoding', b'chunked'), (b'Date', b'Fri, 26 Dec 2025 00:50:30 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=5143'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000')])
+2025-12-25 16:50:31,315 - ThreadPoolExecutor-0_4 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:streamGenerateContent?alt=sse "HTTP/1.1 200 OK"
+2025-12-25 16:50:31,325 - ThreadPoolExecutor-0_4 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2025-12-25 16:50:31,343 - ThreadPoolExecutor-0_4 - INFO - Receiving AI response... (Token stream started)
+2025-12-25 16:50:34,162 - ThreadPoolExecutor-0_3 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ Disclosures/Maxwell Proffer/Interview Transcript - Maxwell 2025.07.25 (Redacted).pdf. Text length: 212466
+2025-12-25 16:50:34,176 - ThreadPoolExecutor-0_3 - INFO - Querying AI... Interview Transcript - Maxwell 2025.07.25 (Redacted).pdf
+2025-12-25 16:50:34,802 - ThreadPoolExecutor-0_1 - DEBUG - Extraction complete: https://www.justice.gov/multimedia/DOJ%20Disclosures/First%20Phase%20of%20Declassified%20Epstein%20Files/B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf. Text length: 114748
+2025-12-25 16:50:34,803 - ThreadPoolExecutor-0_1 - INFO - Querying AI... B.%20Flight%20Log%20Released%20in%20US%20v.%20Maxwell,%201.20-cr-00330%20(SDNY%202020).pdf

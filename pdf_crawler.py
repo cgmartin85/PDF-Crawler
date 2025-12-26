@@ -93,7 +93,9 @@ class CrawlerState:
         }
         with open(filename, 'w') as f:
             json.dump(data, f)
-        print(f"\n[+] State saved to {filename}")
+        msg = f"[+] State saved to {filename}"
+        print(f"\n{msg}")
+        logging.info(f"State saved to {filename}")
 
     def load_state(self, filename: str) -> bool:
         try:
@@ -311,6 +313,7 @@ def generate_dashboard() -> Layout:
     return layout
 
 def compile_final_report(output_file: str = "Knowledge_Compilation.md"):
+    logging.info("Compiling final report...")
     console = Console()
     console.print(f"\n[bold blue][*] Compiling report to {output_file}...[/bold blue]")
     
@@ -386,7 +389,6 @@ def crawl(start_url: str, keywords: List[str], max_threads: int, resume: bool = 
     
     session = requests.Session()
     adapter = requests.adapters.HTTPAdapter(pool_connections=max_threads, pool_maxsize=max_threads)
-    session.mount('http://', adapter)
     session.mount('https://', adapter)
     
     futures = set()
@@ -413,8 +415,10 @@ def crawl(start_url: str, keywords: List[str], max_threads: int, resume: bool = 
                             state.concurrency_limit += 1
                 
                 # Fill Queue
+                # CRITICAL FIX: Use len(futures) to limit in-flight tasks, NOT active_tasks.
+                # active_tasks is updated inside the thread, so it lags behind submission, causing flooding.
                 with state.lock:
-                    while len(state.queue) > 0 and state.active_tasks < state.concurrency_limit:
+                    while len(state.queue) > 0 and len(futures) < state.concurrency_limit:
                         url = state.queue.popleft()
                         future = executor.submit(process_url, session, analyzer, url, scope_url)
                         futures.add(future)
@@ -437,10 +441,18 @@ def crawl(start_url: str, keywords: List[str], max_threads: int, resume: bool = 
                 time.sleep(0.1)
                 
     except KeyboardInterrupt:
-        print("\n[!] Force stopping crawler (Ctrl+C detected)...")
+        msg = "\n[!] Force stopping crawler (Ctrl+C detected)..."
+        print(msg)
+        logging.info("Force stopping crawler (Ctrl+C detected)...")
         state.is_running = False
+        
+        logging.info("Initiating graceful shutdown: Saving state.")
         state.save_state("crawler_state.json")
+        
+        logging.info("Initiating graceful shutdown: Compiling report.")
         compile_final_report()
+        
+        logging.info("Exiting process.")
         import os
         os._exit(0)
     finally:
