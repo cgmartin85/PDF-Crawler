@@ -117,10 +117,25 @@ class CrawlerState:
             print(f"[-] Failed to load state: {e}")
             return False
 
+import logging
+import re
+
+# Configure verbose file logging
+logging.basicConfig(
+    filename='crawler_debug.log',
+    level=logging.DEBUG,
+    format='%(asctime)s - %(threadName)s - %(levelname)s - %(message)s',
+    filemode='w'
+)
+
 state = CrawlerState()
 
 def log_activity(message: str):
-    """Thread-safe UI logger."""
+    """Thread-safe UI logger + File logging."""
+    # Strip rich tags for file log (e.g. [bold]text[/bold] -> text)
+    clean_msg = re.sub(r'\[.*?\]', '', message)
+    logging.info(clean_msg)
+    
     with state.lock:
         state.activity_log.append(message)
 
@@ -133,23 +148,49 @@ def process_url(session: requests.Session, analyzer: GeminiAnalyzer, url: str, s
     Worker function.
     """
     new_links = []
+    thread_name = threading.current_thread().name
     
     try:
         with state.lock:
             state.active_tasks += 1
             
+        logging.debug(f"Starting processing for {url}")
+        
+        # TIMEOUT: Connection tuple (connect, read). 
+        # Read timeout of 60s might be too long if user thinks it's frozen. 
+        # But for 50MB files it might be needed.
         response = session.get(url, stream=True, timeout=(10, 60))
         response.raise_for_status()
         
         content_type = response.headers.get('Content-Type', '').lower()
         
         if 'application/pdf' in content_type or url.lower().endswith('.pdf'):
-            log_activity(f"[cyan]Analyzing PDF:[/cyan] {url.split('/')[-1]}")
-            pdf_bytes = response.content
+            # Check size limit (50MB)
+            content_length = int(response.headers.get('Content-Length', 0))
+            logging.debug(f"PDF found: {url} (Size: {content_length})")
             
+            if content_length > 50 * 1024 * 1024:
+                log_activity(f"[yellow]Skipping large PDF ({content_length/1024/1024:.1f}MB):[/yellow] {url.split('/')[-1]}")
+                return []
+
+            log_activity(f"[cyan]Downloading PDF ({content_length/1024:.1f}KB):[/cyan] {url.split('/')[-1]}")
+            pdf_bytes = response.content
+            logging.debug(f"Download complete: {url}")
+            
+            log_activity(f"[dim]Extracting text...[/dim] {url.split('/')[-1]}")
             text = analyzer.extract_text(pdf_bytes)
+            logging.debug(f"Extraction complete: {url}. Text length: {len(text)}")
+            
+            if not text.strip():
+                log_activity(f"[yellow]No text extracted:[/yellow] {url.split('/')[-1]}")
+                return []
+            
+            log_activity(f"[magenta]Querying AI...[/magenta] {url.split('/')[-1]}")
+            logging.debug(f"Sending prompt to AI for {url}")
+            
             # Pass list of keywords
-            results = analyzer.analyze_content(text, state.keywords)
+            results = analyzer.analyze_content(text, state.keywords, logger=log_activity)
+            logging.debug(f"AI analysis complete for {url}. Found: {len(results)}")
             
             with state.lock:
                 state.analyzed_count += 1

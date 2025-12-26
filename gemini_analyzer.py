@@ -33,7 +33,7 @@ class GeminiAnalyzer:
             print(f"Error extracting text: {e}")
             return ""
 
-    def analyze_content(self, text: str, keywords: list[str]) -> list[dict]:
+    def analyze_content(self, text: str, keywords: list[str], logger=None) -> list[dict]:
         """
         Sends text to Gemini to extract sections related to ANY of the keywords.
         Returns a list of dicts: [{'topic': '...', 'quote': '...', 'summary': '...'}]
@@ -81,7 +81,8 @@ class GeminiAnalyzer:
 
         for attempt in range(max_retries + 1):
             try:
-                response = self.client.models.generate_content(
+                # Use streaming to provide immediate feedback
+                response_stream = self.client.models.generate_content_stream(
                     model=self.model_name,
                     contents=prompt,
                     config=types.GenerateContentConfig(
@@ -89,12 +90,27 @@ class GeminiAnalyzer:
                     )
                 )
                 
+                full_text = ""
+                first_chunk_received = False
+                
+                for chunk in response_stream:
+                    if hasattr(chunk, 'text') and chunk.text:
+                        text_chunk = chunk.text
+                        full_text += text_chunk
+                        if not first_chunk_received:
+                            msg = f"[cyan]Receiving AI response...[/cyan] (Token stream started)"
+                            if logger: logger(msg)
+                            elif attempt == 0: print(msg) # Only print if not retrying to avoid spam
+                            first_chunk_received = True
+
                 try:
                     import json
-                    result = json.loads(response.text)
+                    result = json.loads(full_text)
                 except Exception:
-                    # Fallback if response.text isn't raw JSON string or if SDK behaves differently
-                    print(f"Debug: Response text: {response.text}")
+                    # Fallback if response text isn't raw JSON string or incomplete
+                    msg = f"Debug: Failed to parse JSON. Text len: {len(full_text)}"
+                    if logger: logger(f"[dim]{msg}[/dim]")
+                    else: print(msg)
                     return []
                 
                 # Ensure it's a list
@@ -111,16 +127,24 @@ class GeminiAnalyzer:
                 if "429" in error_str or "Too Many Requests" in error_str:
                     if attempt < max_retries:
                         delay = (base_delay * (2 ** attempt)) + (random.random() * 1.0)
-                        print(f"[!] API Rate Limit (429). Retrying in {delay:.2f}s...")
+                        msg = f"[!] API Rate Limit (429). Retrying in {delay:.2f}s..."
+                        if logger: logger(f"[yellow]{msg}[/yellow]") 
+                        else: print(msg)
                         time.sleep(delay)
                         continue
                     else:
-                        print("[!] Max retries reached for API Limit.")
+                        msg = "[!] Max retries reached for API Limit."
+                        if logger: logger(f"[red]{msg}[/red]")
+                        else: print(msg)
                         return []
                 elif "404" in error_str or "Not Found" in error_str:
-                    print(f"[-] Model {self.model_name} not found (404). Skipping.")
+                    msg = f"[-] Model {self.model_name} not found (404). Skipping."
+                    if logger: logger(f"[red]{msg}[/red]")
+                    else: print(msg)
                     return []
                 else:
-                    print(f"AI Analysis failed: {e}")
+                    msg = f"AI Analysis failed: {e}"
+                    if logger: logger(f"[red]{msg}[/red]")
+                    else: print(msg)
                     return []
         return []
