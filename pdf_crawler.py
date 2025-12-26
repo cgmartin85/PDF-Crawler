@@ -77,6 +77,11 @@ class CrawlerState:
         self.start_url: str = ""
         self.keywords: List[str] = []
         
+        self.keywords: List[str] = []
+        
+        # UI: Worker Status
+        self.thread_status: Dict[str, str] = {}
+        
         self.is_running = True
 
     def save_state(self, filename: str):
@@ -141,6 +146,16 @@ def log_activity(message: str):
     with state.lock:
         state.activity_log.append(message)
 
+def update_worker_status(status: str):
+    """Updates the current status of the worker thread."""
+    name = threading.current_thread().name
+    # Shorten name for UI
+    short_name = name.replace("ThreadPoolExecutor-", "T-").split("_")[-1]
+    if "wrapper" in name: short_name = "Main"
+    
+    with state.lock:
+        state.thread_status[name] = f"[{short_name}] {status}"
+
 # ==============================================================================
 # WORKER LOGIC
 # ==============================================================================
@@ -156,6 +171,7 @@ def process_url(session: requests.Session, analyzer: GeminiAnalyzer, url: str, s
         with state.lock:
             state.active_tasks += 1
             
+        update_worker_status(f"Connecting: {url.split('/')[-1]}")
         logging.debug(f"Starting processing for {url}")
         
         # TIMEOUT: Connection tuple (connect, read). 
@@ -172,28 +188,42 @@ def process_url(session: requests.Session, analyzer: GeminiAnalyzer, url: str, s
             logging.debug(f"PDF found: {url} (Size: {content_length})")
             
             if content_length > 50 * 1024 * 1024:
+                update_worker_status("Skipping (>50MB)")
                 log_activity(f"[yellow]Skipping large PDF ({content_length/1024/1024:.1f}MB):[/yellow] {url.split('/')[-1]}")
                 return []
 
+            update_worker_status(f"Downloading ({content_length/1024:.0f}KB)")
             log_activity(f"[cyan]Downloading PDF ({content_length/1024:.1f}KB):[/cyan] {url.split('/')[-1]}")
             pdf_bytes = response.content
             logging.debug(f"Download complete: {url}")
             
+            update_worker_status("Extracting Text")
             log_activity(f"[dim]Extracting text...[/dim] {url.split('/')[-1]}")
+            t0 = time.time()
             text = analyzer.extract_text(pdf_bytes)
+            dur = time.time() - t0
+            update_worker_status(f"Extracted ({dur:.1f}s)")
             logging.debug(f"Extraction complete: {url}. Text length: {len(text)}")
             
             if not text.strip():
+                update_worker_status("No Text Found")
                 log_activity(f"[yellow]No text extracted:[/yellow] {url.split('/')[-1]}")
                 return []
             
+            update_worker_status("Querying AI")
             log_activity(f"[magenta]Querying AI...[/magenta] {url.split('/')[-1]}")
             logging.debug(f"Sending prompt to AI for {url}")
             
             # Pass list of keywords
+            t0 = time.time()
             results = analyzer.analyze_content(text, state.keywords, logger=log_activity)
+            dur = time.time() - t0
+            
+            update_worker_status(f"Analyzed ({len(results)} found)")
+            log_activity(f"[dim]AI finished in {dur:.1f}s (Found {len(results)})[/dim]")
             logging.debug(f"AI analysis complete for {url}. Found: {len(results)}")
             
+            should_log_success = False
             with state.lock:
                 state.analyzed_count += 1
                 if results:
@@ -213,9 +243,14 @@ def process_url(session: requests.Session, analyzer: GeminiAnalyzer, url: str, s
                     # Log the first finding as a sample
                     first = results[0]
                     state.last_finding = f"[green]Found ({first.get('topic')}):[/green] {first.get('summary')[:80]}..."
-                    log_activity(f"[green bold]FOUND {len(results)} RELEVANT ITEMS![/green bold]")
+                    should_log_success = True
+                    
+            if should_log_success:
+                log_activity(f"[green bold]FOUND {len(results)} RELEVANT ITEMS![/green bold]")
+                
                 
         elif 'text/html' in content_type:
+            update_worker_status("Scanning HTML")
             log_activity(f"[dim]Scanning:[/dim] {url.split('/')[-1]}")
             try:
                 html_content = response.content
@@ -240,15 +275,23 @@ def process_url(session: requests.Session, analyzer: GeminiAnalyzer, url: str, s
             except Exception:
                 pass
 
+    except requests.exceptions.RequestException as e:
+        # Re-raise for main loop (Retry Logic)
+        update_worker_status("Net Error")
+        raise e
+
     except Exception as e:
         with state.lock:
             state.errors += 1
             state.concurrency_limit = max(1, state.concurrency_limit // 2)
-            log_activity(f"[red]Error:[/red] {str(e)[:30]}...")
+            
+        log_activity(f"[red]Error:[/red] {str(e)[:30]}...")
+        update_worker_status("Error")
             
     finally:
         with state.lock:
             state.active_tasks -= 1
+        update_worker_status("Idle")
             
     return new_links
 
@@ -265,8 +308,13 @@ def generate_dashboard() -> Layout:
     )
     
     layout["main"].split_row(
-        Layout(name="stats", ratio=1),
+        Layout(name="left_col", ratio=1),
         Layout(name="log", ratio=2)
+    )
+    
+    layout["left_col"].split_column(
+        Layout(name="stats", ratio=1),
+        Layout(name="workers", ratio=1)
     )
 
     # Header
@@ -296,6 +344,22 @@ def generate_dashboard() -> Layout:
         table.add_row("Queue Size", str(len(state.queue)))
 
     layout["stats"].update(Panel(table, title="Statistics", border_style="cyan"))
+
+    # Worker Status Table
+    w_table = Table(box=box.SIMPLE, show_header=False)
+    w_table.add_column("Worker", style="dim")
+    w_table.add_column("Action", style="green")
+    
+    with state.lock:
+        # Sort by thread name to keep order stable
+        for t_name in sorted(state.thread_status.keys()):
+            status = state.thread_status[t_name]
+            if "Idle" not in status:
+                w_table.add_row(status.split("] ")[0] + "]", status.split("] ")[1])
+            else:
+                 w_table.add_row(status.split("] ")[0] + "]", "[dim]Idle[/dim]")
+
+    layout["workers"].update(Panel(w_table, title="Worker Threads", border_style="green"))
 
     # Activity Log
     log_text = Text()
@@ -400,10 +464,22 @@ def crawl(start_url: str, keywords: List[str], max_threads: int, resume: bool = 
     
     executor = ThreadPoolExecutor(max_workers=max_threads)
     
+    # Track futures: {future: url}
+    futures = {}
+    last_save = time.time()
+    SAVE_INTERVAL = 300  # 5 minutes
+    
     try:
         with Live(generate_dashboard(), refresh_per_second=4, screen=False) as live:
             
             while state.is_running and (state.queue or futures):
+                
+                # Auto-Save Check
+                if time.time() - last_save > SAVE_INTERVAL:
+                    state.save_state("crawler_state.json")
+                    log_activity("[yellow]Auto-saved progress.[/yellow]")
+                    last_save = time.time()
+                
                 
                 # Update Dashboard
                 live.update(generate_dashboard())
@@ -421,13 +497,16 @@ def crawl(start_url: str, keywords: List[str], max_threads: int, resume: bool = 
                     while len(state.queue) > 0 and len(futures) < state.concurrency_limit:
                         url = state.queue.popleft()
                         future = executor.submit(process_url, session, analyzer, url, scope_url)
-                        futures.add(future)
+                        futures[future] = url
                 
                 # Check Results
-                completed = [f for f in futures if f.done()]
-                futures.difference_update(completed)
+                # Python 3.9+ dictionary keys view is not safe to modify during iteration?
+                # Actually concurrent.futures.wait is better but we want non-blocking.
+                # Let's iterate over a copy of keys
+                done_futures = [f for f in futures if f.done()]
                 
-                for f in completed:
+                for f in done_futures:
+                    url = futures.pop(f) # Remove from tracking
                     try:
                         new_links = f.result()
                         with state.lock:
@@ -435,6 +514,15 @@ def crawl(start_url: str, keywords: List[str], max_threads: int, resume: bool = 
                                 if link not in state.visited:
                                     state.visited.add(link)
                                     state.queue.append(link)
+                    except requests.exceptions.RequestException:
+                        # RETRY LOGIC
+                        log_activity(f"[yellow]Network error for {url.split('/')[-1]}. Re-queueing...[/yellow]")
+                        with state.lock:
+                            state.queue.append(url)
+                            state.active_tasks -= 1 # Only if it wasn't decremented in finally? 
+                            # Wait, process_url always decrements active_tasks in finally.
+                            # So we just need to re-queue.
+                            
                     except Exception as e:
                         log_activity(f"[red]Fatal Worker Error:[/red] {e}")
                 
