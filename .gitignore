@@ -4,4 +4,9 @@
 *.env.example
 __pycache__/
 mock_site/
+Knowledge_Compilation*
 Knowledge_Compilation.md
+crawler_debug.log
+crawler_debug*
+crawler_state.json
+.vscode/

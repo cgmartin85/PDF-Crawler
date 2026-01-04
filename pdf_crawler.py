@@ -63,7 +63,7 @@ class CrawlerState:
         self.findings: List[Dict[str, str]] = []
         
         # UI Logs
-        self.activity_log: deque = deque(maxlen=8)
+        self.activity_log: deque = deque(maxlen=100)
         self.last_finding: str = "None yet..."
         
         # Concurrency
@@ -300,21 +300,22 @@ def process_url(session: requests.Session, analyzer: GeminiAnalyzer, url: str, s
 # ==============================================================================
 
 def generate_dashboard() -> Layout:
+    # Layout Definition
     layout = Layout()
     layout.split_column(
         Layout(name="header", size=3),
-        Layout(name="main", ratio=1),
+        Layout(name="upper"),
         Layout(name="footer", size=3)
     )
     
-    layout["main"].split_row(
-        Layout(name="left_col", ratio=1),
-        Layout(name="log", ratio=2)
+    layout["upper"].split_row(
+        Layout(name="left_col", ratio=2),
+        Layout(name="right_col", ratio=3)
     )
     
     layout["left_col"].split_column(
-        Layout(name="stats", ratio=1),
-        Layout(name="workers", ratio=1)
+        Layout(name="stats", size=13), # Fixed height for stats
+        Layout(name="workers")         # Dynamic height for workers
     )
 
     # Header
@@ -362,12 +363,25 @@ def generate_dashboard() -> Layout:
     layout["workers"].update(Panel(w_table, title="Worker Threads", border_style="green"))
 
     # Activity Log
-    log_text = Text()
+    # Calculate available height for logs
+    console = Console()
+    total_height = console.size.height
+    # Heuristic: Reserve 10 lines for UI chrome, use rest for logs
+    # Ensure at least 5 lines
+    max_log_lines = max(5, total_height - 10) 
+    
+    log_text = ""
     with state.lock:
-        for msg in state.activity_log:
-            log_text.append(Text.from_markup(msg + "\n"))
-            
-    layout["log"].update(Panel(log_text, title="Live Activity", border_style="green"))
+        # Slice the deque to fit the window
+        # Conversion to list is O(N) but N=100 is tiny.
+        items = list(state.activity_log)
+        # Take last N
+        if len(items) > max_log_lines:
+            items = items[-max_log_lines:]
+        
+        log_text = "\n".join(items) if items else "Waiting for activity..."
+        
+    layout["right_col"].update(Panel(log_text, title="Activity Log", border_style="white"))
 
     # Footer (Last Finding)
     with state.lock:
